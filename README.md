@@ -1,33 +1,24 @@
-### Batch Expiry Alert
+# Batch Expiry Alert (Frappe v16 + ERPNext)
 
-Expiry Alert Message
+Emails an HTML table of expiring batches every day at 12:00 AM IST, for 6, 2 and 0 days before expiry. One email is sent per reminder day. A log prevents duplicate emails.
 
-### Installation
+## Requirements
+- Frappe v16 and ERPNext v16
+- A working outgoing Email Account (Gmail needs an App Password)
 
-You can install this app using the [bench](https://github.com/frappe/bench) CLI:
+## Install
+    cd $PATH_TO_YOUR_BENCH
+    bench get-app https://github.com/Vrunda-Dholariya/batch_expiry_alert --branch main
+    bench --site <your-site> install-app batch_expiry_alert
+    bench --site <your-site> migrate
 
-```bash
-cd $PATH_TO_YOUR_BENCH
-bench get-app $URL_OF_THIS_REPO --branch main
-bench install-app batch_expiry_alert
-```
+## Setup
+1. Set up an outgoing Email Account.
+2. Open **Batch Expiry Notification Setting**: tick Enabled, set Sender Email, add reminder days (6, 2, 0), add recipients as To or CC.
+3. Optional: tick Skip Zero Stock.
 
-### Contributing
-
-This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
-
-```bash
-cd apps/batch_expiry_alert
-pre-commit install
-```
-
-Pre-commit is configured to use the following tools for checking and formatting your code:
-
-- ruff
-- eslint
-- prettier
-- pyupgrade
-
-### License
-
-mit
+## Limitations
+- A batch added with fewer than 6 days left misses the 6-day reminder.
+- Send time is fixed at midnight server time.
+- Every reminder day goes to the same recipients.
+- Use a dedicated sender address in production.
